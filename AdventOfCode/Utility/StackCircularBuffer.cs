@@ -50,6 +50,11 @@ namespace AdventOfCode.Utility
         /// any enumerable.
         /// </param>
         public StackCircularBuffer(Span<T> items)
+            : this(items, items.Length)
+        {
+        }
+        
+        public StackCircularBuffer(Span<T> items, int initialSize)
         {
             if (items.Length < 1)
             {
@@ -62,7 +67,7 @@ namespace AdventOfCode.Utility
             }
 
             this.buffer = items;
-            this.size = items.Length;
+            this.size = initialSize;
 
             this.start = 0;
             this.end = this.size == items.Length ? 0 : this.size;
@@ -177,7 +182,7 @@ namespace AdventOfCode.Utility
             this.ThrowIfEmpty("Cannot take elements from an empty buffer.");
             T value = this.Back();
             this.Decrement(ref this.end);
-            this.buffer[this.end] = default;
+            this.buffer[this.end] = default!;
             --this.size;
             return value;
         }
@@ -190,7 +195,7 @@ namespace AdventOfCode.Utility
         {
             this.ThrowIfEmpty("Cannot take elements from an empty buffer.");
             T value = this.Front();
-            this.buffer[this.start] = default;
+            this.buffer[this.start] = default!;
             this.Increment(ref this.start);
             --this.size;
             return value;

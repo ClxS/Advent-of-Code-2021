@@ -190,7 +190,7 @@ namespace AdventOfCode.Utility
         {
             this.ThrowIfEmpty("Cannot take elements from an empty buffer.");
             this.Decrement(ref this._end);
-            this._buffer[this._end] = default;
+            this._buffer[this._end] = default!;
             --this._size;
         }
 
@@ -201,7 +201,7 @@ namespace AdventOfCode.Utility
         public void PopFront()
         {
             this.ThrowIfEmpty("Cannot take elements from an empty buffer.");
-            this._buffer[this._start] = default;
+            this._buffer[this._start] = default!;
             this.Increment(ref this._start);
             --this._size;
         }
@@ -219,7 +219,7 @@ namespace AdventOfCode.Utility
             var segments = new ArraySegment<T>[2] { this.ArrayOne(), this.ArrayTwo() };
             foreach (ArraySegment<T> segment in segments)
             {
-                Array.Copy(segment.Array, segment.Offset, newArray, newArrayOffset, segment.Count);
+                Array.Copy(segment.Array!, segment.Offset, newArray, newArrayOffset, segment.Count);
                 newArrayOffset += segment.Count;
             }
             return newArray;
@@ -233,7 +233,7 @@ namespace AdventOfCode.Utility
             {
                 for (int i = 0; i < segment.Count; i++)
                 {
-                    yield return segment.Array[segment.Offset + i];
+                    yield return segment.Array![segment.Offset + i];
                 }
             }
         }
