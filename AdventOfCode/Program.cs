@@ -1,10 +1,12 @@
-﻿using AoCHelper;
+﻿using System;
+using System.Linq;
+using AoCHelper;
 
 if (args.Length == 0)
 {
     Solver.SolveLast();
 }
-else if (args.Length == 1 && args[0].Contains("all", System.StringComparison.CurrentCultureIgnoreCase))
+else if (args.Length == 1 && args[0].Contains("all", StringComparison.CurrentCultureIgnoreCase))
 {
     Solver.SolveAll();
 }
