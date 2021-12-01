@@ -6,7 +6,7 @@
 
     public static class FileUtil
     {
-        public static IEnumerable<int> GetIntArray(string filePath)
+        public static IReadOnlyList<int> GetIntArray(string filePath)
         {
             List<int> numbers = new();
             foreach (var line in File.ReadAllText(filePath).SplitLines())
