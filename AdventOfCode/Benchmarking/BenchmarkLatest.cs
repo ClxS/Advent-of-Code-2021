@@ -7,6 +7,7 @@
     using AoCHelper;
     using BenchmarkDotNet.Attributes;
 
+    [MemoryDiagnoser]
     public class BenchmarkLatest
     {
         private readonly BaseProblem problem;
@@ -30,7 +31,7 @@
         [Benchmark]
         public async ValueTask<string> Part2()
         {
-            return await this.problem.Solve_1();
+            return await this.problem.Solve_2();
         }
     }
 }
