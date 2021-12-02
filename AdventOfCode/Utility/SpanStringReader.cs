@@ -47,7 +47,7 @@
                 idx++;
             }
 
-            var retValue = this.data.Slice(0, idx);
+            var retValue = this.data[..idx];
             this.data = this.data[(Math.Min(idx + skip, this.data.Length))..];
             return retValue;
         }
@@ -71,7 +71,7 @@
                 idx++;
             }
 
-            var retValue = this.data.Slice(0, idx);
+            var retValue = this.data[..idx];
 
             if (skipFound && idx < this.data.Length - 1)
             {
@@ -101,7 +101,7 @@
                 idx++;
             }
 
-            var retValue = this.data.Slice(0, idx);
+            var retValue = this.data[..idx];
 
             if (skipFound && idx < this.data.Length - 1)
             {
@@ -169,7 +169,7 @@
             while (idx < this.data.Length && idx + 1 < dataLength)
             {
                 var @char = this.data[idx + 1];
-                if (@char == ' ' || @char == '\r')
+                if (@char is ' ' or '\r')
                 {
                     break;
                 }
@@ -177,7 +177,7 @@
                 idx++;
             }
 
-            var retValue = this.data.Slice(0, idx + 1);
+            var retValue = this.data[..(idx + 1)];
 
             if (skipToNextChar)
             {
@@ -253,7 +253,7 @@
                 idx++;
             }
 
-            var retValue = this.data.Slice(0, idx + 1);
+            var retValue = this.data[..(idx + 1)];
 
             if (skipToNextChar)
             {
@@ -303,7 +303,7 @@
             while (idx < this.data.Length && idx + 1 < dataLength)
             {
                 var @char = this.data[idx + 1];
-                if (!(@char == '\r' || @char == '\n' || @char == ' '))
+                if (@char is not ('\r' or '\n' or ' '))
                 {
                     break;
                 }
