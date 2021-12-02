@@ -1,6 +1,7 @@
 ﻿namespace AdventOfCode.Utility
 {
     using System;
+    using System.Collections.Generic;
 
     public static class StringExtensions
     {
@@ -180,6 +181,20 @@
             // This method allow to implicitly cast the type into a ReadOnlySpan<char>, so you can write the following code
             // foreach (ReadOnlySpan<char> entry in str.SplitLines())
             public static implicit operator ReadOnlyMemory<char>(SplitEntryAsMemory entry) => entry.Line;
+        }
+
+        public static void Match(this ReadOnlySpan<char> str, Action unmatched, params KeyValuePair<string, Action>[] actions)
+        {
+            foreach (var action in actions)
+            {
+                if (str.SequenceEqual(action.Key))
+                {
+                    action.Value();
+                    return;
+                }
+            }
+
+            unmatched();
         }
     }
 }
