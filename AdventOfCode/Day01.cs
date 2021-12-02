@@ -5,7 +5,7 @@
     using AoCHelper;
     using Utility;
 
-    public sealed class Day01 : BaseDay
+    public sealed class Day01 : FastBaseDay<int>
     {
         private readonly IReadOnlyList<int> input;
 
@@ -14,7 +14,7 @@
             this.input = FileUtil.GetIntArray(this.InputFilePath);
         }
 
-        public override ValueTask<string> Solve_1()
+        protected override int Solve1()
         {
             var increaseCount = 0;
             for (var i = 1; i < this.input.Count; ++i)
@@ -25,10 +25,10 @@
                 }
             }
 
-            return new(increaseCount.ToString());
+            return increaseCount;
         }
 
-        public override ValueTask<string> Solve_2()
+        protected override int Solve2()
         {
             var increaseCount = 0;
             var dataSize = this.input.Count;
@@ -40,7 +40,7 @@
                 }
             }
 
-            return new(increaseCount.ToString());
+            return increaseCount;
         }
     }
 }

@@ -3,35 +3,34 @@
     using System;
     using System.Linq;
     using System.Reflection;
-    using System.Threading.Tasks;
-    using AoCHelper;
     using BenchmarkDotNet.Attributes;
+    using Utility;
 
     [MemoryDiagnoser]
     public class BenchmarkLatest
     {
-        private readonly BaseProblem problem;
+        private readonly IFastDay problem;
         
         public BenchmarkLatest()
         {
             var solver = Assembly
                 .GetExecutingAssembly()
                 .GetTypes()
-                .Last(type => typeof(BaseProblem).IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract);
+                .Last(type => typeof(IFastDay).IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract);
             
-            this.problem = (BaseProblem)Activator.CreateInstance(solver)!;
+            this.problem = (IFastDay)Activator.CreateInstance(solver)!;
         }
         
         [Benchmark]
-        public async ValueTask<string> Part1()
+        public void Part1()
         {
-            return await this.problem.Solve_1();
+            this.problem.NonReturnSolve1();
         }
         
         [Benchmark]
-        public async ValueTask<string> Part2()
+        public void Part2()
         {
-            return await this.problem.Solve_2();
+            this.problem.NonReturnSolve2();
         }
     }
 }

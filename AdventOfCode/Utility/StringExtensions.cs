@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Runtime.CompilerServices;
 
     public static class StringExtensions
     {
@@ -183,18 +184,68 @@
             public static implicit operator ReadOnlyMemory<char>(SplitEntryAsMemory entry) => entry.Line;
         }
 
-        public static void Match(this ReadOnlySpan<char> str, Action unmatched, params KeyValuePair<string, Action>[] actions)
-        {
-            foreach (var action in actions)
-            {
-                if (str.SequenceEqual(action.Key))
-                {
-                    action.Value();
-                    return;
-                }
-            }
+        
 
-            unmatched();
+        public static unsafe void Match<TContext>(
+            this ReadOnlySpan<char> str,
+            WrappedPointer<TContext> unmatched, 
+            KeyValuePair<string, WrappedPointer<TContext>> actions1, 
+            ref TContext context)
+        {
+            if (str.SequenceEqual(actions1.Key))
+            {
+                actions1.Value.Delegate(ref context);
+            }
+            else
+            {
+                unmatched.Delegate(ref context);
+            }
+        }
+        
+        public static unsafe void Match<TConect>(
+            this ReadOnlySpan<char> str,
+            WrappedPointer<TConect> unmatched, 
+            KeyValuePair<string, WrappedPointer<TConect>> actions1, 
+            KeyValuePair<string, WrappedPointer<TConect>> actions2,
+            ref TConect context)
+        {
+            if (str.SequenceEqual(actions1.Key))
+            {
+                actions1.Value.Delegate(ref context);
+            }
+            else if (str.SequenceEqual(actions2.Key))
+            {
+                actions2.Value.Delegate(ref context);
+            }
+            else
+            {
+                unmatched.Delegate(ref context);
+            }
+        }
+        public static unsafe void Match<T>(
+            this ReadOnlySpan<char> str,
+            ref T context,
+            WrappedPointer<T> unmatched, 
+            KeyValuePair<string, WrappedPointer<T>> actions1, 
+            KeyValuePair<string, WrappedPointer<T>> actions2, 
+            KeyValuePair<string, WrappedPointer<T>> actions3)
+        {
+            if (str.SequenceEqual(actions1.Key))
+            {
+                actions1.Value.Delegate(ref context);
+            }
+            else if (str.SequenceEqual(actions2.Key))
+            {
+                actions2.Value.Delegate(ref context);
+            }
+            else if (str.SequenceEqual(actions3.Key))
+            {
+                actions3.Value.Delegate(ref context);
+            }
+            else
+            {
+                unmatched.Delegate(ref context);
+            }
         }
     }
 }

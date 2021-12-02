@@ -145,7 +145,7 @@
                 idx++;
             }
 
-            var retValue = this.data.Slice(0, idx + 1);
+            var retValue = this.data[..(idx + 1)];
 
             if (skipToNextChar)
             {
