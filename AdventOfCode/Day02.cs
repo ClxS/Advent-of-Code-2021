@@ -5,6 +5,7 @@
     using Utility;
     using Kvp = System.Collections.Generic.KeyValuePair<string, System.Action>;
 
+    // ReSharper disable once UnusedType.Global
     public sealed unsafe class Day02 : FastBaseDay<Day02.MatchContext>
     {
         private readonly string input;

@@ -1,10 +1,9 @@
 ﻿namespace AdventOfCode
 {
     using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using AoCHelper;
     using Utility;
 
+    // ReSharper disable once UnusedType.Global
     public sealed class Day01 : FastBaseDay<int>
     {
         private readonly IReadOnlyList<int> input;
