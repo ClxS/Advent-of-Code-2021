@@ -12,7 +12,7 @@
 
         public Day03()
         {
-            this.input = File.ReadAllText(this.InputFilePath);
+            this.input = File.ReadAllText(this.InputFilePath).Replace("\r", "");
         }
 
         protected override int Solve1()
@@ -20,9 +20,7 @@
             var entries = 0;
             
             // Determine input size
-            var enumerator = this.input.SplitLines();
-            enumerator.MoveNext();
-            var firstLength = enumerator.Current.Length;
+            var firstLength = this.input.IndexOf('\n');
             
             Span<int> oneCounts = stackalloc int[firstLength];
             var mask = MaskUtil.SetOnes(firstLength);
@@ -52,9 +50,7 @@
             var entries = 0;
             
             // Determine input size
-            var enumerator = this.input.SplitLines();
-            enumerator.MoveNext();
-            var firstLength = enumerator.Current.Length;
+            var firstLength = this.input.IndexOf('\n');
             
             Span<int> oxygenNumbers = stackalloc int[this.input.CountCharacters('\n') + 1];
             Span<int> scrubberNumbers = stackalloc int[oxygenNumbers.Length];

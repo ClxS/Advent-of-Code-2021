@@ -88,13 +88,13 @@
                     var next = span[index + 1];
                     if (this.separators.Contains(next))
                     {
-                        this.current = new(span.Slice(0, index), span.Slice(index, 2));
+                        this.current = new(span[..index], span.Slice(index, 2));
                         this.chars = span[(index + 2)..];
                         return true;
                     }
                 }
 
-                this.current = new(span.Slice(0, index), span.Slice(index, 1));
+                this.current = new(span[..index], span.Slice(index, 1));
                 this.chars = span[(index + 1)..];
                 return true;
             }
