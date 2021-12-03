@@ -23,8 +23,6 @@
             var firstLength = this.input.IndexOf('\n');
             
             Span<int> oneCounts = stackalloc int[firstLength];
-            var mask = MaskUtil.SetOnes(firstLength);
-            
             foreach (var number in this.input.SplitLines())
             {
                 entries++;
@@ -41,7 +39,7 @@
                 gammaRate |= (oneCounts[oneCounts.Length - 1 - idx] > halfEntries ? 1 : 0) << idx;
             }
 
-            var epsilonRate = (gammaRate ^ mask) & mask;
+            var epsilonRate = (~gammaRate) & ((1 << firstLength) - 1);
             return gammaRate * epsilonRate;
         }
 
