@@ -6,9 +6,25 @@
 
     public static class StringExtensions
     {
+        private static char[] lines = { '\r', '\n' };
+
+        public static int CountCharacters(this string str, char character)
+        {
+            var count = 0;
+            foreach (var c in str)
+            {
+                if (c == character)
+                {
+                    count++;
+                }
+            }
+
+            return count;
+        }
+        
         public static SplitEnumerator SplitLines(this string str)
         {
-            return str.SplitAsSpans(new[] { '\r', '\n' });
+            return str.SplitAsSpans(lines);
         }
         
         public static SplitEnumerator SplitAsSpans(this string str, ReadOnlySpan<char> separators)

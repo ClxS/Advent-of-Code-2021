@@ -18,6 +18,18 @@
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int ParseBinary(ReadOnlySpan<char> input)
+        {
+            var val = 0;
+            foreach (var t in input)
+            {
+                val = (val * 2) + (t - '0');
+            }
+
+            return val;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong ParseUlong(ReadOnlySpan<char> input)
         {
             ulong val = 0;
