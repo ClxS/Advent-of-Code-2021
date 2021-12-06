@@ -17,7 +17,7 @@
 
         protected override int Solve1()
         {
-            var overlapCells = new HashSet<(int X, int Y)>();
+            var count = 0;
             Span<byte> cell = stackalloc byte[1000*1000];
             foreach (var line in this.input.SplitLines())
             {
@@ -35,7 +35,7 @@
                     cell[y1 * 1000 + x1]++;
                     if (cell[y1 * 1000 + x1] == 2)
                     {
-                        overlapCells.Add((x1, y1));
+                        count++;
                     }
 
                     x1 += xVelocity;
@@ -43,12 +43,12 @@
                 }
             }
             
-            return overlapCells.Count;
+            return count;
         }
 
         protected override int Solve2()
         {
-            var overlapCells = new HashSet<(int X, int Y)>();
+            var count = 0;
             Span<byte> cell = stackalloc byte[1000*1000];
             foreach (var line in this.input.SplitLines())
             {
@@ -61,7 +61,7 @@
                     cell[y1 * 1000 + x1]++;
                     if (cell[y1 * 1000 + x1] == 2)
                     {
-                        overlapCells.Add((x1, y1));
+                        count++;
                     }
 
                     x1 += xVelocity;
@@ -69,7 +69,7 @@
                 }
             }
             
-            return overlapCells.Count;
+            return count;
         }
 
         private static void ReadLine(ReadOnlySpan<char> line, out int x1, out int y1, out int x2, out int y2)
