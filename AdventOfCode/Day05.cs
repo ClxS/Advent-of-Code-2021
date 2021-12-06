@@ -26,19 +26,21 @@
                 {
                     continue;
                 }
+                
+                var xVelocity = Math.Sign(x2 - x1);
+                var yVelocity = Math.Sign(y2 - y1);
 
-                for (var x = Math.Min(x1, x2); x <= Math.Max(x1, x2); x++)
+                while (x1 != (x2 + xVelocity) || y1 != (y2 + yVelocity))
                 {
-                    for (var y = Math.Min(y1, y2); y <= Math.Max(y1, y2); y++)
+                    cell[y1 * 1000 + x1]++;
+                    if (cell[y1 * 1000 + x1] == 2)
                     {
-                        cell[y1 * 1000 + x1]++;
-                        if (cell[y1 * 1000 + x1] == 2)
-                        {
-                            overlapCells.Add((x, y));
-                        }
-                    }                    
-                }
+                        overlapCells.Add((x1, y1));
+                    }
 
+                    x1 += xVelocity;
+                    y1 += yVelocity;
+                }
             }
             
             return overlapCells.Count;
