@@ -50,7 +50,7 @@
             // Determine input size
             var firstLength = this.input.IndexOf('\n');
             
-            Span<int> oxygenNumbers = stackalloc int[this.input.CountCharacters('\n') + 1];
+            Span<int> oxygenNumbers = stackalloc int[this.input.AsSpan().CountCharacters('\n') + 1];
             Span<int> scrubberNumbers = stackalloc int[oxygenNumbers.Length];
             
             foreach (var number in this.input.SplitLines())

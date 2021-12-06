@@ -8,7 +8,7 @@
     {
         private static char[] lines = { '\r', '\n' };
 
-        public static int CountCharacters(this string str, char character)
+        public static int CountCharacters(this ReadOnlySpan<char> str, char character)
         {
             var count = 0;
             foreach (var c in str)
@@ -23,6 +23,11 @@
         }
         
         public static SplitEnumerator SplitLines(this string str)
+        {
+            return str.SplitAsSpans(lines);
+        }
+
+        public static SplitEnumerator SplitLines(this ReadOnlySpan<char> str)
         {
             return str.SplitAsSpans(lines);
         }

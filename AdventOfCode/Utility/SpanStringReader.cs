@@ -311,5 +311,17 @@
                 idx++;
             }
         }
+
+        public void SkipSpace()
+        {
+            var idx = 0;
+            if (this.data.Length < 0 || this.data[0] != ' ')
+            {
+                return;
+            }
+            
+            this.ProceedToNextChar(ref idx);
+            this.data = this.data[(idx + 1)..];
+        }
     }
 }
