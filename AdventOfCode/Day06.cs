@@ -5,6 +5,7 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Runtime.Intrinsics;
     using System.Threading.Tasks;
     using Utility;
 
@@ -20,67 +21,35 @@
 
         protected override ulong Solve1()
         {
-            var fishCount = this.input.AsSpan().CountCharacters(',') + 1;
-            var fishDateOffsets = this.input.Split(",").Select(int.Parse);
-            var totalFish = (ulong)fishCount;
-            var dayDict = new ConcurrentDictionary<int, ulong>();
-
-            Parallel.ForEach(fishDateOffsets.Distinct(), uniqueDate =>
-            {
-                dayDict[uniqueDate] = this.SumProducedFish(uniqueDate + 1, 80);
-            });
-            
-            foreach (var fish in fishDateOffsets)
-            {
-                totalFish += dayDict[fish];
-            }
-
-            return totalFish;
+            return this.SolveBase(80);
         }
 
         protected override ulong Solve2()
         {
-            var fishCount = this.input.AsSpan().CountCharacters(',') + 1;
-            var fishDateOffsets = this.input.Split(",").Select(int.Parse);
-            var totalFish = (ulong)fishCount;
-            var dayDict = new ConcurrentDictionary<int, ulong>();
+            return this.SolveBase(256);
+        }
+        
+        private ulong SolveBase(int iterations)
+        {
+            Span<ulong> initialCounts = stackalloc ulong[9];
 
-            Parallel.ForEach(fishDateOffsets.Distinct(), uniqueDate =>
+            var totalFish = 0ul;
+            for (var i = 0; i < this.input.Length; i += 2)
             {
-                dayDict[uniqueDate] = this.SumProducedFish(uniqueDate + 1, 256);
-            });
-            
-            foreach (var fish in fishDateOffsets)
+                initialCounts[this.input[i] - '0']++;
+                totalFish++;
+            }
+
+            var pivot = 0;
+            for (var i = 1; i <= iterations; ++i)
             {
-                totalFish += dayDict[fish];
+                var count = initialCounts[pivot];
+                totalFish += count;
+                initialCounts[(pivot + 7) % 9] += count;
+                pivot = (pivot + 1) % 9;
             }
 
             return totalFish;
-        }
-
-        private ulong SumProducedFish(int daysUntilNextSpawn, int remainingDays)
-        {
-            if (remainingDays < daysUntilNextSpawn)
-            {
-                return 0;
-            }
-
-            var spawnedChildren = (remainingDays - daysUntilNextSpawn) / 7;
-
-            var total = 1ul + (ulong)spawnedChildren;
-            total += this.SumProducedFish(8 + 1, remainingDays - daysUntilNextSpawn);
-            for (var childFish = 1; childFish <= spawnedChildren; ++childFish)
-            {
-                if (remainingDays - daysUntilNextSpawn - (childFish * 7) < 0)
-                {
-                    total--;
-                    break;
-                }
-                
-                total += this.SumProducedFish(8 + 1, remainingDays - daysUntilNextSpawn - (childFish * 7));
-            }
-
-            return total;
         }
     }
 }

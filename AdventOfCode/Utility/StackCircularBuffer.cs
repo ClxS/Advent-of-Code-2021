@@ -194,7 +194,7 @@ namespace AdventOfCode.Utility
         public T PopFront()
         {
             this.ThrowIfEmpty("Cannot take elements from an empty buffer.");
-            T value = this.Front();
+            var value = this.Front();
             this.buffer[this.start] = default!;
             this.Increment(ref this.start);
             --this.size;
