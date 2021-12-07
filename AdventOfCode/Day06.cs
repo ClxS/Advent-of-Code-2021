@@ -10,7 +10,7 @@
     using Utility;
 
     // ReSharper disable once UnusedType.Global
-    public sealed class Day06 : FastBaseDay<ulong>
+    public unsafe sealed class Day06 : FastBaseDay<ulong>
     {
         private readonly string input;
         
@@ -31,22 +31,28 @@
         
         private ulong SolveBase(int iterations)
         {
-            Span<ulong> initialCounts = stackalloc ulong[9];
-
             var totalFish = 0ul;
-            for (var i = 0; i < this.input.Length; i += 2)
+            fixed (char* p = input)
             {
-                initialCounts[this.input[i] - '0']++;
-                totalFish++;
-            }
+                var str = p;
+                var inputLength = this.input.Length;
+                var initialCounts = stackalloc ulong[9];
+                var end = str + inputLength;
+                while(str < end)
+                {
+                    initialCounts[str[0] - '0']++;
+                    totalFish++;
+                    str += 2;
+                }
 
-            var pivot = 0;
-            for (var i = 1; i <= iterations; ++i)
-            {
-                var count = initialCounts[pivot];
-                totalFish += count;
-                initialCounts[(pivot + 7) % 9] += count;
-                pivot = (pivot + 1) % 9;
+                var pivot = 0;
+                for (var i = 1; i <= iterations; ++i)
+                {
+                    var count = initialCounts[pivot];
+                    totalFish += count;
+                    initialCounts[(pivot + 7) % 9] += count;
+                    pivot = (pivot + 1) % 9;
+                }
             }
 
             return totalFish;
