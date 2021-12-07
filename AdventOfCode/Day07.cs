@@ -40,7 +40,6 @@
         {
             Span<int> crabs = stackalloc int[this.input.AsSpan().CountCharacters(',') + 1];
             this.ReadCrabs(crabs);
-            crabs.Sort();
             
             var sum = 0;
             foreach (var crab in crabs)
@@ -48,15 +47,22 @@
                 sum += crab;
             }
 
-            var targetPoint = (int)Math.Round(sum / (float)crabs.Length, MidpointRounding.ToZero);
+            var minTarget = (int)Math.Floor(sum / (float)crabs.Length);
+            var maxTarget = (int)Math.Ceiling(sum / (float)crabs.Length);
 
-            var fuelSum = 0;
+            var minFuelSum = 0;
             foreach (var crab in crabs)
             {
-                fuelSum += NumberUtility.TriangleNumber(Math.Abs(crab - targetPoint));
+                minFuelSum += NumberUtility.TriangleNumber(Math.Abs(crab - minTarget));
             }
             
-            return (ulong)fuelSum;
+            var maxFuelSum = 0;
+            foreach (var crab in crabs)
+            {
+                maxFuelSum += NumberUtility.TriangleNumber(Math.Abs(crab - maxTarget));
+            }
+            
+            return (ulong)Math.Min(minFuelSum, maxFuelSum);
         }
 
         private void ReadCrabs(Span<int> crabs)
@@ -78,7 +84,6 @@
 
                 crabs[crabIdx++] = reader.ReadInt();
             }
-
         }
     }
 }
