@@ -38,9 +38,9 @@
                 }
 
                 var count = 0;
-                for (var x = 0; x < map.Width; x++)
+                for (var y = 0; y < map.Height; y++)
                 {
-                    for (var y = 0; y < map.Height; y++)
+                    for (var x = 0; x < map.Width; x++)
                     {
                         var thisValue = map[y, x];
                         if (
