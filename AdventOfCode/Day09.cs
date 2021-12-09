@@ -62,13 +62,12 @@
         {
             Span<int> threeLargest = stackalloc int[3];
             var fileBytes = Encoding.ASCII.GetBytes(this.input);
-            var tmpFloodMap = new byte[fileBytes.Length];
             fixed (byte* ptr = fileBytes)
-            fixed (byte* floodMapBytes = tmpFloodMap)
             {
+                byte* floodBytes = stackalloc byte[fileBytes.Length];
                 var width = this.input.IndexOf('\n');
                 var map = new Span2D<byte>(ptr, this.input.Length / (width + 1) + 1, width, 1);
-                var floodMap = new Span2D<byte>(floodMapBytes, this.input.Length / (width + 1) + 1, width, 1);
+                var floodMap = new Span2D<byte>(floodBytes, this.input.Length / (width + 1) + 1, width, 1);
 
                 for (var x = 0; x < map.Width; x++)
                 {
