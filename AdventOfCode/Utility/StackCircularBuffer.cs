@@ -74,6 +74,13 @@ namespace AdventOfCode.Utility
             this.capacity = items.Length;
         }
 
+        public void Clear()
+        {
+            this.start = 0;
+            this.end = 0;
+            this.size = 0;
+        }
+
         /// <summary>
         /// Maximum capacity of the buffer. Elements pushed into the buffer after
         /// maximum capacity is reached (IsFull = true), will remove an element.

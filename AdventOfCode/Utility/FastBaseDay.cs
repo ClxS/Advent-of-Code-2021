@@ -1,17 +1,20 @@
 ﻿namespace AdventOfCode.Utility
 {
+    using System;
     using System.IO;
     using System.Threading.Tasks;
     using AoCHelper;
 
     public abstract class FastBaseDay<T> : BaseDay, IFastDay
     {
+        private string input;
+        
         public FastBaseDay()
         {
-            this.Input = File.ReadAllText(this.InputFilePath).Replace("\r", "");
+            this.input = File.ReadAllText(this.InputFilePath).Replace("\r", "");
         }
 
-        protected string Input { get; }
+        protected ReadOnlySpan<char> Input => this.input;
 
         public override ValueTask<string> Solve_1()
         {
